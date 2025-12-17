@@ -1,0 +1,65 @@
+<form [formGroup]="form">
+
+  <!-- TIPO TRÁMITE -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Tipo de trámite</mat-label>
+    <mat-select formControlName="tipoTramiteId">
+      <mat-option *ngFor="let t of tiposTramite" [value]="t.id">
+        {{ t.nombre }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- COMENTARIO -->
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Comentario</mat-label>
+    <textarea matInput rows="3" formControlName="comentario"></textarea>
+  </mat-form-field>
+
+  <!-- ADJUNTOS -->
+  <h3>Adjuntos</h3>
+
+  <div formArrayName="adjuntos">
+    <div
+      *ngFor="let adj of adjuntos.controls; let i = index"
+      [formGroupName]="i"
+      style="display: grid; grid-template-columns: 2fr 2fr 3fr auto; gap: 8px"
+    >
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo documento</mat-label>
+        <mat-select formControlName="tipoDocumentoId">
+          <mat-option *ngFor="let d of tiposDocumento" [value]="d.id">
+            {{ d.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre archivo</mat-label>
+        <input matInput formControlName="nombreArchivo">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>URL</mat-label>
+        <input matInput formControlName="url">
+      </mat-form-field>
+
+      <button mat-icon-button color="warn" (click)="eliminarAdjunto(i)">
+        🗑️
+      </button>
+
+    </div>
+  </div>
+
+  <button mat-stroked-button type="button" (click)="agregarAdjunto()">
+    + Agregar adjunto
+  </button>
+
+  <br /><br />
+
+  <button mat-raised-button color="primary" (click)="crearTramite()">
+    Radicar trámite
+  </button>
+
+</form>

@@ -1,4 +1,5 @@
-<mat-toolbar color="primary">
+<!-- TOOLBAR: solo si NO es login -->
+<mat-toolbar color="primary" *ngIf="!isLoginRoute()">
   <span style="font-weight:600">Gestión de trámites - USCO</span>
   <span style="flex:1 1 auto"></span>
 
@@ -16,6 +17,5 @@
   </ng-template>
 </mat-toolbar>
 
-<div style="max-width:900px;margin:2rem auto;padding:1rem">
-  <router-outlet></router-outlet>
-</div>
+<!-- CONTENIDO -->
+<router-outlet></router-outlet>
