@@ -1,51 +1,54 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TramiteService {
-  private baseUrl = 'http://localhost:8080/api';
+  private api = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) {}
 
-  // Combos
-  getTiposTramite() {
-    return this.http.get(`${this.baseUrl}/tipos-tramite/activos/combo`);
+  // combos
+  getTiposTramite(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api}/tipos-tramite/activos/combo`);
   }
 
-  getTiposDocumento() {
-    return this.http.get(`${this.baseUrl}/tipos-documento/activos/combo`);
+  getTiposDocumento(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.api}/tipos-documento/activos/combo`);
   }
 
-  getUsuariosAdministrativos() {
-    return this.http.get(`${this.baseUrl}/usuarios/administrativos/activos/combo`);
+  getEstadosTramite(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.api}/estados-tramite`);
   }
 
-  getEstadosTramite() {
-    return this.http.get(`${this.baseUrl}/estados-tramite`);
+  getUsuariosAdministrativos(): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.api}/usuarios/administrativos/activos/combo`
+    );
   }
 
-  // Tramites
-  createTramite(data: any) {
-    return this.http.post(`${this.baseUrl}/tramites`, data);
+  // trámites
+  createTramite(payload: any): Observable<any> {
+    return this.http.post(`${this.api}/tramites`, payload);
   }
 
-  asignarFuncionario(id: number, funcionarioId: number) {
-    return this.http.put(`${this.baseUrl}/tramites/${id}/asignar`, { funcionarioId });
+  findTramitesByFuncionario(funcionarioId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.api}/tramites/funcionario/${funcionarioId}`
+    );
   }
 
-  actualizarEstado(id: number, estadoTramite: string) {
-    return this.http.put(`${this.baseUrl}/tramites/${id}/estado`, { estadoTramite });
+  actualizarEstado(id: number, estadoTramite: string): Observable<any> {
+    return this.http.put(
+      `${this.api}/tramites/${id}/estado`,
+      { estadoTramite }
+    );
   }
 
-  agregarComentario(id: number, comentario: string) {
-    return this.http.put(`${this.baseUrl}/tramites/${id}/comentario`, { comentario });
-  }
-
-  findTramiteByFuncionarioId(id: number) {
-    return this.http.get(`${this.baseUrl}/tramites/funcionario/${id}`);
-  }
-
-  findSeguimientoByTramiteId(id: number) {
-    return this.http.get(`${this.baseUrl}/tramites/${id}/seguimiento`);
+  asignarFuncionario(id: number, funcionarioId: number): Observable<any> {
+    return this.http.put(
+      `${this.api}/tramites/${id}/asignar`,
+      { funcionarioId }
+    );
   }
 }
