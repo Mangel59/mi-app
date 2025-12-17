@@ -1,30 +1,39 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterModule, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterModule, MatToolbarModule, MatButtonModule],
+  standalone: true,
   templateUrl: './app.shell.html',
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    MatToolbarModule,
+    MatButtonModule
+  ]
 })
 export class App {
-  protected readonly title = signal('angularPruebaTecnica');
+  constructor(private router: Router) {}
 
-  constructor(private auth: AuthService, private router: Router) {}
+  isLoginRoute(): boolean {
+    return this.router.url === '/login';
+  }
 
   isLoggedIn(): boolean {
-    return this.auth.isLoggedIn();
+    return !!localStorage.getItem('token');
   }
 
   isAdmin(): boolean {
-    return this.auth.isAdmin();
+    return localStorage.getItem('rol') === 'ADMIN';
   }
 
   logout(): void {
-    this.auth.logout();
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 }

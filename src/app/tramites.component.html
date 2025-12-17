@@ -1,6 +1,6 @@
 <form [formGroup]="form">
 
-  <!-- TIPO TRÁMITE -->
+  <!-- TIPO DE TRÁMITE -->
   <mat-form-field appearance="outline" class="w-100">
     <mat-label>Tipo de trámite</mat-label>
     <mat-select formControlName="tipoTramiteId">
@@ -21,9 +21,9 @@
 
   <div formArrayName="adjuntos">
     <div
-      *ngFor="let adj of adjuntos.controls; let i = index"
+      *ngFor="let a of adjuntos.controls; let i = index"
       [formGroupName]="i"
-      style="display: grid; grid-template-columns: 2fr 2fr 3fr auto; gap: 8px"
+      style="display:grid;grid-template-columns:2fr 2fr 3fr auto;gap:8px"
     >
 
       <mat-form-field appearance="outline">
@@ -58,7 +58,12 @@
 
   <br /><br />
 
-  <button mat-raised-button color="primary" (click)="crearTramite()">
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="loading"
+    (click)="crearTramite()"
+  >
     Radicar trámite
   </button>
 
